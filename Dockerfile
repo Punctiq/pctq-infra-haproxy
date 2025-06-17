@@ -16,6 +16,9 @@ RUN useradd -r -s /sbin/nologin haproxy && \
     mkdir -p /etc/haproxy /run/haproxy /var/lib/haproxy && \
     chown -R haproxy:haproxy /etc/haproxy /run/haproxy /var/lib/haproxy
 
+RUN mkdir -p /var/lib/haproxy && \
+    chown -R haproxy:haproxy /var/lib/haproxy
+
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
