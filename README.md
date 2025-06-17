@@ -34,7 +34,7 @@ docker build -t punctiq/haproxy:1.0.0 .
 
 ### Run with Docker Compose
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ---

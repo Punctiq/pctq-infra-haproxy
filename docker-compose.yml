@@ -10,9 +10,12 @@ services:
       - "443:443"
     volumes:
       - haproxy_config:/etc/haproxy
+    tmpfs:
+      - /run/haproxy
+      - /var/lib/haproxy
     networks:
       pctq-prod-hz-net:
-        ipv4_address: 172.28.1.10
+        ipv4_address: 172.25.0.2
     healthcheck:
       test: ["CMD", "curl", "-sf", "http://localhost"]
       interval: 30s
@@ -21,14 +24,10 @@ services:
     read_only: true
     security_opt:
       - no-new-privileges:true
-    pull_policy: always  # Ensure the latest image is always pulled
 
 volumes:
   haproxy_config:
 
 networks:
   pctq-prod-hz-net:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.1.0/24
+    external: true
