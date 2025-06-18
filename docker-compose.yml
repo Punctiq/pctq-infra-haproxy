@@ -1,18 +1,16 @@
-version: "3.9"
-
 services:
   haproxy:
     container_name: pctq-prod-hz-haproxy
-    image: itcommunity/punctiq:prod
+    image: itcommunity/haproxy-frontend-prod:1.0.0
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
     volumes:
-      - haproxy_config:/etc/haproxy
+      - ./haproxy.cfg:/etc/haproxy/haproxy.cfg:ro
     tmpfs:
-      - /run/haproxy
-      - /var/lib/haproxy
+      - /run/haproxy:uid=999,gid=999,mode=0770
+      - /var/lib/haproxy:uid=999,gid=999,mode=0750
     networks:
       pctq-prod-hz-net:
         ipv4_address: 172.25.0.2
@@ -24,9 +22,6 @@ services:
     read_only: true
     security_opt:
       - no-new-privileges:true
-
-volumes:
-  haproxy_config:
 
 networks:
   pctq-prod-hz-net:
