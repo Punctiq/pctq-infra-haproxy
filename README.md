@@ -58,6 +58,81 @@ docker compose up -d
 
 ---
 
+# 🔄 Reloading HAProxy Without Downtime
+
+This guide explains how to reload the HAProxy container with zero downtime after making changes to the configuration file.
+
+---
+
+## 📂 1. Make Configuration Changes
+
+Edit your `haproxy.cfg` located on the host (same directory as `docker-compose.yml`):
+
+```bash
+nano haproxy.cfg
+```
+
+Save and validate the changes.
+
+---
+
+## ✅ 2. Validate Configuration
+
+Run this inside the container:
+
+```bash
+docker exec -it pctq-prod-hz-haproxy haproxy -c -f /etc/haproxy/haproxy.cfg
+```
+
+You should see:  
+```
+Configuration file is valid
+```
+
+---
+
+## 🚀 3. Reload Container Gracefully
+
+To reload without downtime:
+
+```bash
+docker kill --signal=HUP pctq-prod-hz-haproxy
+```
+
+This sends the `SIGHUP` signal which causes HAProxy to reload configuration in-place without killing the process.
+
+---
+
+## 🩺 4. Confirm HAProxy is Running
+
+```bash
+docker ps
+docker logs pctq-prod-hz-haproxy
+```
+
+Also, verify ports and frontend activity.
+
+---
+
+## 🛠️ Alternative: Compose Recreate (Soft Restart)
+
+```bash
+docker compose up -d --no-deps --force-recreate haproxy
+```
+
+⚠️ Might cause slight delays during re-creation.
+
+---
+
+## 📚 References
+
+- [HAProxy Documentation](https://www.haproxy.org/download/2.4/doc/management.txt)
+- [Docker Kill Docs](https://docs.docker.com/engine/reference/commandline/kill/)
+
+
+
+
+
 ## 👥 Contributors
 
 - Owner: [Punctiq DevOps Team]
