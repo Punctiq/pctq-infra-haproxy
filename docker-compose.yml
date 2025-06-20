@@ -1,7 +1,7 @@
 services:
   haproxy:
     container_name: pctq-prod-hz-haproxy
-    image: itcommunity/haproxy-frontend-prod:1.0.0
+    image: itcommunity/haproxy-frontend-prod:1.0.1
     restart: unless-stopped
     ports:
       - "80:80"

@@ -29,7 +29,7 @@ The image is meant to serve as a base for internal or external load balancing in
 
 ### Build the Docker image
 ```bash
-docker build -t punctiq/haproxy:1.0.0 .
+docker build -t itcommunity/haproxy-frontend-prod:1.0.0 .
 ```
 
 ### Run with Docker Compose
@@ -129,9 +129,46 @@ docker compose up -d --no-deps --force-recreate haproxy
 - [HAProxy Documentation](https://www.haproxy.org/download/2.4/doc/management.txt)
 - [Docker Kill Docs](https://docs.docker.com/engine/reference/commandline/kill/)
 
+---
 
+## 🧰 Makefile Targets
 
+This repository includes a `Makefile` for simplified automation.
 
+### 🔧 Basic Commands
+
+```makefile
+make build       # Build the Docker image
+make up          # Start the Docker container
+make down        # Stop the Docker container
+make restart     # Restart the container
+make logs        # Show logs
+make shell       # Open shell inside container
+make tag         # Tag image with version and git SHA
+make push        # Push tags to registry
+make clean       # Delete local images
+```
+
+### 🧪 Parameter Help
+
+```makefile
+make help-parameters
+```
+
+Outputs:
+
+```
+VERSION     - The version of the image to build (e.g., 1.0.0)
+GIT_SHA     - Short Git SHA (auto-detected)
+LOCAL_TAG   - Local image tag for testing
+PROD_TAG    - Production tag
+VERSION_TAG - Version tag (X.Y.Z)
+SHA_TAG     - Git SHA tag
+```
+
+> `VERSION` is required for targets that tag or push. Not needed for `logs`, `up`, `down`, or `shell`.
+
+---
 
 ## 👥 Contributors
 
